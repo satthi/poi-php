@@ -163,6 +163,55 @@ public function copyCell($sheet,$row,$col,$orgsheet,$orgrow,$orgcol)
 public function copyStyle($sheet,$row,$col,$orgsheet,$orgrow,$orgcol)
 
 /*
+ * setBorder
+ * 罫線の設定
+ * 
+ * $sheet シート番号
+ * $row 行番号
+ * $col 列番号
+ * $topbstyle 上罫線の設定
+ * $topbcolor 上罫線の色
+ * $leftbstyle 左罫線の設定
+ * $leftbcolor 左罫線の色
+ * $rightbstyle 右罫線の設定
+ * $rightbcolor 右罫線の色
+ * $bottombstyle 下罫線の設定
+ * $bottombcolor 下罫線の色
+ */
+public function setBorder($sheet,$row,$col,$topbstyle,$topbcolor,$leftbstyle,$leftbcolor,$rightbstyle,$rightbcolor,$bottombstyle,$bottombcolor){
+
+/*
+ * setCellColor
+ * セルの色設定
+ * 
+ * $sheet シート番号
+ * $row 行番号
+ * $col 列番号
+ * $cellcolor セルの色(前景色)の設定
+ * $backcolor 背景色の設定
+ * $fillpattern 塗りつぶしパターンの設定
+ */
+public function setCellColor($sheet,$row,$col,$cellcolor,$backcolor = null,$fillpattern = 'SOLID_FOREGROUND')
+
+
+/*
+ * setFontSetting
+ * セルの色設定
+ * 
+ * $sheet シート番号
+ * $row 行番号
+ * $col 列番号
+ * $fontcolor フォントの色設定
+ * $fontsize フォントのサイズ
+ * $font フォントの設定
+ * $italic イタリックの設定
+ * $bold 太字の設定
+ * $strikeout 打ち消し線の設定
+ * $underline 下線の設定
+ */public function setFontSetting($sheet,$row,$col,$fontcolor = null,$fontsize = null,$font = null,$italic = null,$bold = null,$strikeout = null,$underline = null)
+
+
+/*
  * reset
  * セットした値のリセット
  */
