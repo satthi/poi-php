@@ -242,7 +242,7 @@ public class ExcelExport{
                         style.cloneStyleFrom(old_style);
                         style.setFillForegroundColor(color_type(stringArray[EXCEL_CELL_COLOR]));
                         if(!stringArray[EXCEL_CELL_BACKCOLOR].equals("")) {
-                            style.setFillBackgroundColor(color_type(stringArray[EXCEL_CELL_COLOR]));
+                            style.setFillBackgroundColor(color_type(stringArray[EXCEL_CELL_BACKCOLOR]));
                         }
                         style.setFillPattern(cell_fillpattern(stringArray[EXCEL_CELL_FILL_PATTERN]));
                         cell.setCellStyle(style);

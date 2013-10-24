@@ -16,12 +16,13 @@ class PoiPHP {
             'poi_path' => dirname(__FILE__) . '/../../poi-3.9',
             'opencsv_path' => dirname(__FILE__) . '/../../opencsv-2.3/deploy/opencsv-2.3.jar',
             'plugin_java_path' => dirname(__FILE__) . '/../java',
+            'tmp_csv_dir_path' => '/tmp',
         );
         $this->_settings = array_merge($default_settings,$settings);
         //必要ファイルやディレクトリがない場合はエラー
-        if (!is_dir($this->_settings['poi_path']) || !file_exists($this->_settings['opencsv_path']) || !is_dir($this->_settings['plugin_java_path'])){
+        if (!is_dir($this->_settings['poi_path']) || !file_exists($this->_settings['opencsv_path']) || !is_dir($this->_settings['plugin_java_path']) || !is_dir($this->_settings['tmp_csv_dir_path'])){
             trigger_error('Java File or Directory Not Found');
-            return;
+            exit;
         }
     }
 
@@ -30,8 +31,7 @@ class PoiPHP {
      * export
      */
     public function excelExport($readfile, $outFile) {
-        $tsv_file = '/tmp/tmp_csv_' . substr((md5(time())), 0, 10) . '.csv';
-        //$tsv_file = TMP  . 'tmp_csv_' . substr((md5(time())), 0, 10) . '.csv';
+        $tsv_file = $this->_settings['tmp_csv_dir_path'] . '/tmp_csv_' . substr((md5(time())), 0, 10) . '.csv';
         $this->__makeTsv($tsv_file);
         //作ったTSVを元にExcelを作成する
         $cd_command = $this->_settings['plugin_java_path'];

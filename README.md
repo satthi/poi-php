@@ -5,242 +5,242 @@ varsion 0.1
 
 (2013/10/21)
 
-‚±‚Ìƒvƒ‰ƒOƒCƒ“‚ÍJava‚Ìpoi‚ğPHP‚©‚ç’@‚¢‚ÄƒGƒNƒZƒ‹‚ğ“üo—Í‚·‚éƒvƒ‰ƒOƒCƒ“‚Å‚·B
+ã“ã®ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã¯Javaã®poiã‚’PHPã‹ã‚‰å©ã„ã¦ã‚¨ã‚¯ã‚»ãƒ«ã‚’å…¥å‡ºåŠ›ã™ã‚‹ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã§ã™ã€‚
 ***********************************************************************
 
-•K{—vŒ
+å¿…é ˆè¦ä»¶
 jdk1.7.0_40
 poi-3.9
 opencsv-2.3
 
-g‚¢•û
+ä½¿ã„æ–¹
 
-‡@poi-php‚ğ”CˆÓ‚ÌêŠ‚Éİ’u
-‡APHP‚ğ‹Lq
+â‘ poi-phpã‚’ä»»æ„ã®å ´æ‰€ã«è¨­ç½®
+â‘¡PHPã‚’è¨˜è¿°
 <pre>
-//ƒfƒtƒHƒ‹ƒg“Ç‚İ‚İ
-require_once('poi-php.php‚ÌƒfƒBƒŒƒNƒgƒŠƒpƒX');
+//ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆèª­ã¿è¾¼ã¿
+require_once('poi-php.phpã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ‘ã‚¹');
 $this->PoiPHP = new PoiPHP();
 $this->PoiPHP->settings(array(
-	'poi_path' => 'poi-3.9‚ÌƒfƒBƒŒƒNƒgƒŠƒpƒX',
-	'opencsv_path' => 'opencsv-2.3.jar‚Ìƒtƒ@ƒCƒ‹ƒpƒX',
+	'poi_path' => 'poi-3.9ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ‘ã‚¹',
+	'opencsv_path' => 'opencsv-2.3.jarã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹',
 ));
-//Excelo—Í
-//1ƒV[ƒg–Ú‚Ì1s–Ú1—ñ‚Éa‚ğ•¶š—ñ‚Æ‚µ‚Ä“ü—Í
+//Excelå‡ºåŠ›
+//1ã‚·ãƒ¼ãƒˆç›®ã®1è¡Œç›®1åˆ—ã«aã‚’æ–‡å­—åˆ—ã¨ã—ã¦å…¥åŠ›
 $this->ExcelExport->addString(0,0,0,'a');
-//“üo—Í‚Ìƒtƒ@ƒCƒ‹‚Íƒtƒ‹ƒpƒX‚Åw’è‚·‚éB
+//å…¥å‡ºåŠ›ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯ãƒ•ãƒ«ãƒ‘ã‚¹ã§æŒ‡å®šã™ã‚‹ã€‚
 $readfile = dirname(__FILE__) . '/test.xls';
 $outFile = dirname(__FILE__) . '/export.xls';
 $this->ExcelExport->export($readfile, $outFile);
 
-//Excel“ü—Í
-//“üo—Í‚Ìƒtƒ@ƒCƒ‹‚Íƒtƒ‹ƒpƒX‚Åw’è‚·‚éB
+//Excelå…¥åŠ›
+//å…¥å‡ºåŠ›ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯ãƒ•ãƒ«ãƒ‘ã‚¹ã§æŒ‡å®šã™ã‚‹ã€‚
 $readfile = dirname(__FILE__) . '/test.xls';
 $outFile = dirname(__FILE__) . '/export.csv';
 $this->ExcelImport->import($readfile, $outFile, 0, 2, 1, 4);
 </pre>
-‚ğ‹LqB
+ã‚’è¨˜è¿°ã€‚
 
-¦’ˆÓ“_
-Java‚Ìƒo[ƒWƒ‡ƒ“‚ª‡‚í‚È‚¢‚Æ“®ì‚µ‚Ü‚¹‚ñB
+â€»æ³¨æ„ç‚¹
+Javaã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ãŒåˆã‚ãªã„ã¨å‹•ä½œã—ã¾ã›ã‚“ã€‚
 
-/javaƒfƒBƒŒƒNƒgƒŠ“à‚É‚Í.javaƒtƒ@ƒCƒ‹‚à’u‚¢‚Ä‚¢‚é‚Ì‚ÅA
+/javaãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå†…ã«ã¯.javaãƒ•ã‚¡ã‚¤ãƒ«ã‚‚ç½®ã„ã¦ã„ã‚‹ã®ã§ã€
 
-java‚Ìƒo[ƒWƒ‡ƒ“‚ğ‡‚í‚¹‚ç‚ê‚È‚¢ê‡‚É‚Í©•ª‚ÅƒRƒ“ƒpƒCƒ‹‚µ‚½‚ç“®‚­‚©‚à‚µ‚ê‚È‚¢‚Å‚·B
+javaã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚’åˆã‚ã›ã‚‰ã‚Œãªã„å ´åˆã«ã¯è‡ªåˆ†ã§ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã—ãŸã‚‰å‹•ãã‹ã‚‚ã—ã‚Œãªã„ã§ã™ã€‚
 
------------ˆÈ‰ºŠÖ”‚Ìà–¾‚Å‚·----------
+-----------ä»¥ä¸‹é–¢æ•°ã®èª¬æ˜ã§ã™----------
 
 <pre>
 /*
  * addString
- * •¶š—ñ‚Ì’Ç‰Á
- * QÆƒZƒ‹‚Ìİ’è‚ğ“ü‚ê‚é‚ÆƒXƒ^ƒCƒ‹‚ğƒRƒs[‚µ‚Ä‚«‚Ü‚·B
+ * æ–‡å­—åˆ—ã®è¿½åŠ 
+ * å‚ç…§ã‚»ãƒ«ã®è¨­å®šã‚’å…¥ã‚Œã‚‹ã¨ã‚¹ã‚¿ã‚¤ãƒ«ã‚’ã‚³ãƒ”ãƒ¼ã—ã¦ãã¾ã™ã€‚
  * 
- * $sheet ƒV[ƒg”Ô†
- * $row s”Ô†
- * $col —ñ”Ô†
- * $string •¶š—ñ
- * $orgrow QÆƒZƒ‹‚Ìs”Ô†
- * $orgcol QÆƒZƒ‹‚Ì—ñ”Ô†
- * $orgsheet QÆƒZƒ‹‚ÌƒV[ƒg”Ô†
+ * $sheet ã‚·ãƒ¼ãƒˆç•ªå·
+ * $row è¡Œç•ªå·
+ * $col åˆ—ç•ªå·
+ * $string æ–‡å­—åˆ—
+ * $orgrow å‚ç…§ã‚»ãƒ«ã®è¡Œç•ªå·
+ * $orgcol å‚ç…§ã‚»ãƒ«ã®åˆ—ç•ªå·
+ * $orgsheet å‚ç…§ã‚»ãƒ«ã®ã‚·ãƒ¼ãƒˆç•ªå·
  */
 public function addString($sheet,$row,$col,$string,$orgrow = null,$orgcol = null,$orgsheet = null){
 
 /*
  * addNumber
- * ”’l‚Ì’Ç‰Á
- * QÆƒZƒ‹‚Ìİ’è‚ğ“ü‚ê‚é‚ÆƒXƒ^ƒCƒ‹‚ğƒRƒs[‚µ‚Ä‚«‚Ü‚·B
+ * æ•°å€¤ã®è¿½åŠ 
+ * å‚ç…§ã‚»ãƒ«ã®è¨­å®šã‚’å…¥ã‚Œã‚‹ã¨ã‚¹ã‚¿ã‚¤ãƒ«ã‚’ã‚³ãƒ”ãƒ¼ã—ã¦ãã¾ã™ã€‚
  * 
- * $sheet ƒV[ƒg”Ô†
- * $row s”Ô†
- * $col —ñ”Ô†
- * $integer ”’l
- * $orgrow QÆƒZƒ‹‚Ìs”Ô†
- * $orgcol QÆƒZƒ‹‚Ì—ñ”Ô†
- * $orgsheet QÆƒZƒ‹‚ÌƒV[ƒg”Ô†
+ * $sheet ã‚·ãƒ¼ãƒˆç•ªå·
+ * $row è¡Œç•ªå·
+ * $col åˆ—ç•ªå·
+ * $integer æ•°å€¤
+ * $orgrow å‚ç…§ã‚»ãƒ«ã®è¡Œç•ªå·
+ * $orgcol å‚ç…§ã‚»ãƒ«ã®åˆ—ç•ªå·
+ * $orgsheet å‚ç…§ã‚»ãƒ«ã®ã‚·ãƒ¼ãƒˆç•ªå·
  */
 public function addNumber($sheet,$row,$col,$integer,$orgrow = null,$orgcol = null,$orgsheet = null)
 
 /*
  * addFormula
- * ”’l‚Ì’Ç‰Á
- * QÆƒZƒ‹‚Ìİ’è‚ğ“ü‚ê‚é‚ÆƒXƒ^ƒCƒ‹‚ğƒRƒs[‚µ‚Ä‚«‚Ü‚·B
+ * æ•°å€¤ã®è¿½åŠ 
+ * å‚ç…§ã‚»ãƒ«ã®è¨­å®šã‚’å…¥ã‚Œã‚‹ã¨ã‚¹ã‚¿ã‚¤ãƒ«ã‚’ã‚³ãƒ”ãƒ¼ã—ã¦ãã¾ã™ã€‚
  * 
- * $sheet ƒV[ƒg”Ô†
- * $row s”Ô†
- * $col —ñ”Ô†
- * $formula ŠÖ”
- * $orgrow QÆƒZƒ‹‚Ìs”Ô†
- * $orgcol QÆƒZƒ‹‚Ì—ñ”Ô†
- * $orgsheet QÆƒZƒ‹‚ÌƒV[ƒg”Ô†
+ * $sheet ã‚·ãƒ¼ãƒˆç•ªå·
+ * $row è¡Œç•ªå·
+ * $col åˆ—ç•ªå·
+ * $formula é–¢æ•°
+ * $orgrow å‚ç…§ã‚»ãƒ«ã®è¡Œç•ªå·
+ * $orgcol å‚ç…§ã‚»ãƒ«ã®åˆ—ç•ªå·
+ * $orgsheet å‚ç…§ã‚»ãƒ«ã®ã‚·ãƒ¼ãƒˆç•ªå·
  */
 public function addFormula($sheet,$row,$col,$formula,$orgrow = null,$orgcol = null,$orgsheet = null)
 
 
 /*
  * setCellMerge
- * ƒZƒ‹‚Ìƒ}[ƒW
+ * ã‚»ãƒ«ã®ãƒãƒ¼ã‚¸
  * 
- * $sheet ƒV[ƒg”Ô†
- * $rowst ŠJns”Ô†
- * $rowen I—¹s”Ô†
- * $colst ŠJn—ñ”Ô†
- * $colen I—¹—ñ”Ô†
+ * $sheet ã‚·ãƒ¼ãƒˆç•ªå·
+ * $rowst é–‹å§‹è¡Œç•ªå·
+ * $rowen çµ‚äº†è¡Œç•ªå·
+ * $colst é–‹å§‹åˆ—ç•ªå·
+ * $colen çµ‚äº†åˆ—ç•ªå·
  */
 public function setCellMerge($sheet,$rowst,$rowen,$colst,$colen)
 
 /*
  * addSheet
- * ƒV[ƒg‚Ì’Ç‰Á
+ * ã‚·ãƒ¼ãƒˆã®è¿½åŠ 
  * 
- * $org_sheet ‘åŒ³‚ÌƒV[ƒg”Ô†
- * $count ƒV[ƒg’Ç‰Á”
+ * $org_sheet å¤§å…ƒã®ã‚·ãƒ¼ãƒˆç•ªå·
+ * $count ã‚·ãƒ¼ãƒˆè¿½åŠ æ•°
  */
 public function addSheet($org_sheet,$count)
 
 
 /*
  * rmSheet
- * ƒV[ƒg‚Ìíœ
+ * ã‚·ãƒ¼ãƒˆã®å‰Šé™¤
  * 
- * $sheet ƒV[ƒg”Ô†
+ * $sheet ã‚·ãƒ¼ãƒˆç•ªå·
  */
 public function rmSheet($sheet)
 
 /*
  * setSheetname
- * ƒV[ƒg–¼‚Ìİ’è
+ * ã‚·ãƒ¼ãƒˆåã®è¨­å®š
  * 
- * $sheet ƒV[ƒg”Ô†
- * $sheet ƒV[ƒg–¼
+ * $sheet ã‚·ãƒ¼ãƒˆç•ªå·
+ * $sheet ã‚·ãƒ¼ãƒˆå
  */
 public function setSheetname($sheet,$sheetname)
 
 /*
  * copyCell
- * ƒZƒ‹‚ÌƒRƒs[
+ * ã‚»ãƒ«ã®ã‚³ãƒ”ãƒ¼
  * 
- * $sheet ƒV[ƒg”Ô†
- * $row s”Ô†
- * $col —ñ”Ô†
- * $orgrow QÆƒZƒ‹‚Ìs”Ô†
- * $orgcol QÆƒZƒ‹‚Ì—ñ”Ô†
- * $orgsheet QÆƒZƒ‹‚ÌƒV[ƒg”Ô†
+ * $sheet ã‚·ãƒ¼ãƒˆç•ªå·
+ * $row è¡Œç•ªå·
+ * $col åˆ—ç•ªå·
+ * $orgrow å‚ç…§ã‚»ãƒ«ã®è¡Œç•ªå·
+ * $orgcol å‚ç…§ã‚»ãƒ«ã®åˆ—ç•ªå·
+ * $orgsheet å‚ç…§ã‚»ãƒ«ã®ã‚·ãƒ¼ãƒˆç•ªå·
  */
 public function copyCell($sheet,$row,$col,$orgsheet,$orgrow,$orgcol)
 
 /*
  * copyStyle
- * ƒXƒ^ƒCƒ‹‚ÌƒRƒs[
+ * ã‚¹ã‚¿ã‚¤ãƒ«ã®ã‚³ãƒ”ãƒ¼
  * 
- * $sheet ƒV[ƒg”Ô†
- * $row s”Ô†
- * $col —ñ”Ô†
- * $orgrow QÆƒZƒ‹‚Ìs”Ô†
- * $orgcol QÆƒZƒ‹‚Ì—ñ”Ô†
- * $orgsheet QÆƒZƒ‹‚ÌƒV[ƒg”Ô†
+ * $sheet ã‚·ãƒ¼ãƒˆç•ªå·
+ * $row è¡Œç•ªå·
+ * $col åˆ—ç•ªå·
+ * $orgrow å‚ç…§ã‚»ãƒ«ã®è¡Œç•ªå·
+ * $orgcol å‚ç…§ã‚»ãƒ«ã®åˆ—ç•ªå·
+ * $orgsheet å‚ç…§ã‚»ãƒ«ã®ã‚·ãƒ¼ãƒˆç•ªå·
  */
 public function copyStyle($sheet,$row,$col,$orgsheet,$orgrow,$orgcol)
 
 /*
  * setBorder
- * Œrü‚Ìİ’è
+ * ç½«ç·šã®è¨­å®š
  * 
- * $sheet ƒV[ƒg”Ô†
- * $row s”Ô†
- * $col —ñ”Ô†
- * $topbstyle ãŒrü‚Ìİ’è
- * $topbcolor ãŒrü‚ÌF
- * $leftbstyle ¶Œrü‚Ìİ’è
- * $leftbcolor ¶Œrü‚ÌF
- * $rightbstyle ‰EŒrü‚Ìİ’è
- * $rightbcolor ‰EŒrü‚ÌF
- * $bottombstyle ‰ºŒrü‚Ìİ’è
- * $bottombcolor ‰ºŒrü‚ÌF
+ * $sheet ã‚·ãƒ¼ãƒˆç•ªå·
+ * $row è¡Œç•ªå·
+ * $col åˆ—ç•ªå·
+ * $topbstyle ä¸Šç½«ç·šã®è¨­å®š
+ * $topbcolor ä¸Šç½«ç·šã®è‰²
+ * $leftbstyle å·¦ç½«ç·šã®è¨­å®š
+ * $leftbcolor å·¦ç½«ç·šã®è‰²
+ * $rightbstyle å³ç½«ç·šã®è¨­å®š
+ * $rightbcolor å³ç½«ç·šã®è‰²
+ * $bottombstyle ä¸‹ç½«ç·šã®è¨­å®š
+ * $bottombcolor ä¸‹ç½«ç·šã®è‰²
  */
 public function setBorder($sheet,$row,$col,$topbstyle,$topbcolor,$leftbstyle,$leftbcolor,$rightbstyle,$rightbcolor,$bottombstyle,$bottombcolor){
 
 /*
  * setCellColor
- * ƒZƒ‹‚ÌFİ’è
+ * ã‚»ãƒ«ã®è‰²è¨­å®š
  * 
- * $sheet ƒV[ƒg”Ô†
- * $row s”Ô†
- * $col —ñ”Ô†
- * $cellcolor ƒZƒ‹‚ÌF(‘OŒiF)‚Ìİ’è
- * $backcolor ”wŒiF‚Ìİ’è
- * $fillpattern “h‚è‚Â‚Ô‚µƒpƒ^[ƒ“‚Ìİ’è
+ * $sheet ã‚·ãƒ¼ãƒˆç•ªå·
+ * $row è¡Œç•ªå·
+ * $col åˆ—ç•ªå·
+ * $cellcolor ã‚»ãƒ«ã®è‰²(å‰æ™¯è‰²)ã®è¨­å®š
+ * $backcolor èƒŒæ™¯è‰²ã®è¨­å®š
+ * $fillpattern å¡—ã‚Šã¤ã¶ã—ãƒ‘ã‚¿ãƒ¼ãƒ³ã®è¨­å®š
  */
 public function setCellColor($sheet,$row,$col,$cellcolor,$backcolor = null,$fillpattern = 'SOLID_FOREGROUND')
 
 
 /*
  * setFontSetting
- * ƒZƒ‹‚ÌFİ’è
+ * ã‚»ãƒ«ã®è‰²è¨­å®š
  * 
- * $sheet ƒV[ƒg”Ô†
- * $row s”Ô†
- * $col —ñ”Ô†
- * $fontcolor ƒtƒHƒ“ƒg‚ÌFİ’è
- * $fontsize ƒtƒHƒ“ƒg‚ÌƒTƒCƒY
- * $font ƒtƒHƒ“ƒg‚Ìİ’è
- * $italic ƒCƒ^ƒŠƒbƒN‚Ìİ’è
- * $bold ‘¾š‚Ìİ’è
- * $strikeout ‘Å‚¿Á‚µü‚Ìİ’è
- * $underline ‰ºü‚Ìİ’è
+ * $sheet ã‚·ãƒ¼ãƒˆç•ªå·
+ * $row è¡Œç•ªå·
+ * $col åˆ—ç•ªå·
+ * $fontcolor ãƒ•ã‚©ãƒ³ãƒˆã®è‰²è¨­å®š
+ * $fontsize ãƒ•ã‚©ãƒ³ãƒˆã®ã‚µã‚¤ã‚º
+ * $font ãƒ•ã‚©ãƒ³ãƒˆã®è¨­å®š
+ * $italic ã‚¤ã‚¿ãƒªãƒƒã‚¯ã®è¨­å®š
+ * $bold å¤ªå­—ã®è¨­å®š
+ * $strikeout æ‰“ã¡æ¶ˆã—ç·šã®è¨­å®š
+ * $underline ä¸‹ç·šã®è¨­å®š
  */public function setFontSetting($sheet,$row,$col,$fontcolor = null,$fontsize = null,$font = null,$italic = null,$bold = null,$strikeout = null,$underline = null)
 
 
 /*
  * reset
- * ƒZƒbƒg‚µ‚½’l‚ÌƒŠƒZƒbƒg
+ * ã‚»ãƒƒãƒˆã—ãŸå€¤ã®ãƒªã‚»ãƒƒãƒˆ
  */
 public function reset()
 
 
 /*
- * export
- * Excel‚Ìo—ÍBaddString‚È‚Ç‚Ìİ’è‚ğ‚·‚×‚Äs‚Á‚ÄÅŒã‚Éo—Í‚ğ‚µ‚Ü‚·B
+ * excelExport
+ * Excelã®å‡ºåŠ›ã€‚addStringãªã©ã®è¨­å®šã‚’ã™ã¹ã¦è¡Œã£ã¦æœ€å¾Œã«å‡ºåŠ›ã‚’ã—ã¾ã™ã€‚
  *
- * @param readfile “Ç‚İ‚İƒeƒ“ƒvƒŒ[ƒgƒtƒ@ƒCƒ‹
- * @param outFile o—ÍExcelƒtƒ@ƒCƒ‹
+ * @param readfile èª­ã¿è¾¼ã¿ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«
+ * @param outFile å‡ºåŠ›Excelãƒ•ã‚¡ã‚¤ãƒ«
  */
-public function export($readfile, $outFile)
+public function excelExport($readfile, $outFile)
 
 /*
- * import
- * Excel‚Ì“ü—ÍBCSVƒtƒ@ƒCƒ‹‚Éo—Í‚ğ‚µ‚Ü‚·B
- * ”CˆÓ‚ÌƒV[ƒg‚Ì”CˆÓ‚ÌêŠ‚©‚ç“Ç‚İ‚İ‚Ü‚·B
+ * excelImport
+ * Excelã®å…¥åŠ›ã€‚CSVãƒ•ã‚¡ã‚¤ãƒ«ã«å‡ºåŠ›ã‚’ã—ã¾ã™ã€‚
+ * ä»»æ„ã®ã‚·ãƒ¼ãƒˆã®ä»»æ„ã®å ´æ‰€ã‹ã‚‰èª­ã¿è¾¼ã¿ã¾ã™ã€‚
  * 
- * $readfile “Ç‚İ‚İExcelƒtƒ@ƒCƒ‹
- * $outFile o—ÍCSVƒtƒ@ƒCƒ‹
- * $sheet “Ç‚İ‚ŞƒV[ƒg”Ô†
- * $rowst “Ç‚İ‚İŠJns
- * $colst “Ç‚İ‚İŠJn—ñ
- * $colnum —ñ”
- * $file_encode CSVƒtƒ@ƒCƒ‹‚Ì•¶šƒR[ƒh
+ * $readfile èª­ã¿è¾¼ã¿Excelãƒ•ã‚¡ã‚¤ãƒ«
+ * $outFile å‡ºåŠ›CSVãƒ•ã‚¡ã‚¤ãƒ«
+ * $sheet èª­ã¿è¾¼ã‚€ã‚·ãƒ¼ãƒˆç•ªå·
+ * $rowst èª­ã¿è¾¼ã¿é–‹å§‹è¡Œ
+ * $colst èª­ã¿è¾¼ã¿é–‹å§‹åˆ—
+ * $colnum åˆ—æ•°
+ * $file_encode CSVãƒ•ã‚¡ã‚¤ãƒ«ã®æ–‡å­—ã‚³ãƒ¼ãƒ‰
  */
-public function import($readfile, $outFile, $sheet, $rowst, $colst, $colnum,$file_encode = 'UTF-8')
+public function excelImport($readfile, $outFile, $sheet, $rowst, $colst, $colnum,$file_encode = 'UTF-8')
 
 </pre>
 
