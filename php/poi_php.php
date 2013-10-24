@@ -30,15 +30,17 @@ class PoiPHP {
      * export
      */
     public function export($readfile, $outFile) {
-        $tsv_file = '/tmp/tmp_csv_' . substr((md5(time())), 0, 10) . '.csv';
+        //$tsv_file = '/tmp/tmp_csv_' . substr((md5(time())), 0, 10) . '.csv';
+        $tsv_file = TMP  . 'tmp_csv_' . substr((md5(time())), 0, 10) . '.csv';
         $this->__makeTsv($tsv_file);
         //作ったTSVを元にExcelを作成する
         $cd_command = $this->_settings['plugin_java_path'];
         $command = 'export LANG=ja_JP.UTF-8;cd ' . $cd_command . ';java -Dfile.encoding=UTF-8 -cp \'.:' . $this->_settings['poi_path'] . '/*:' . $this->_settings['poi_path'] . '/lib/*:' . $this->_settings['poi_path'] . '/ooxml-lib/*:' . $this->_settings['opencsv_path'] . '\' ExcelExport ' . $readfile . ' ' . $outFile . ' ' . $tsv_file . ' 2>&1';
 
         exec($command,$javalog);
-        @unlink($tsv_file);
+        //@unlink($tsv_file);
         
+        print_a($javalog);
         if (file_exists($outFile)){
             return $outFile;
         } else {
@@ -188,6 +190,56 @@ class PoiPHP {
             'type' => 'set_style',
         );
     }
+    public function setCellColor($sheet,$row,$col,$cellcolor,$backcolor = null,$fillpattern = 'SOLID_FOREGROUND'){
+        $this->export_param[] = array(
+            'sheet' => $sheet,
+            'row' => $row,
+            'col' => $col,
+            'cellcolor' => $cellcolor,
+            'backcolor' => $backcolor,
+            'fillpattern' => $fillpattern,
+            'type' => 'cell_color',
+        );
+    }
+    public function setFontSetting($sheet,$row,$col,$fontcolor = null,$fontsize = null,$font = null,$italic = null,$bold = null,$strikeout = null,$underline = null){
+        if ($italic === null){
+            $italic_disp = '';
+        } else {
+            $italic_disp = (int)$italic;
+        }
+        if ($bold === null){
+            $bold_disp = '';
+        } else {
+            $bold_disp = (int)$bold;
+        }
+        if ($strikeout === null){
+            $strikeout_disp = '';
+        } else {
+            $strikeout_disp = (int)$strikeout;
+        }
+        if ($underline === null){
+            $underline_disp = '';
+        } else {
+            if (is_bool($underline)){
+                $underline_disp = (int)$underline;
+            } else {
+                $underline_disp = $underline;
+            }
+        }
+        $this->export_param[] = array(
+            'sheet' => $sheet,
+            'row' => $row,
+            'col' => $col,
+            'fontcolor' => $fontcolor,
+            'fontsize' => $fontsize,
+            'font' => $font,
+            'italic' => $italic_disp,
+            'bold' => $bold_disp,
+            'strikeout' => $strikeout_disp,
+            'underline' => $underline_disp,
+            'type' => 'font_setting',
+        );
+    }
     
     public function chgRowHeight($sheet,$row,$rowheight){
         $this->export_param[] = array(
@@ -244,6 +296,16 @@ class PoiPHP {
             //21:右罫線色
             //22:下罫線
             //23:下罫線色
+            //24:セル色
+            //25:セル色(背景色
+            //26:塗りつぶしパターン
+            //27:フォント色
+            //28:フォントサイズ
+            //29:フォント
+            //30:イタリックフラグ
+            //31:太字フラグ
+            //32:打ち消し線フラグ
+            //33:アンダーラインフラグ
             $tsv_text .= $this->__parseCsv($param['type'],",")  . "," .
                          $this->__parseCsv($param['sheet'],",") . "," .
                          $this->__parseCsv(@$param['row'],",") . "," .
@@ -267,7 +329,17 @@ class PoiPHP {
                          $this->__parseCsv(@$param['rightbstyle'],",") . "," .
                          $this->__parseCsv(@$param['rightbcolor'],",") . "," .
                          $this->__parseCsv(@$param['bottombstyle'],",") . "," .
-                         $this->__parseCsv(@$param['bottombcolor'],",")
+                         $this->__parseCsv(@$param['bottombcolor'],",") . "," .
+                         $this->__parseCsv(@$param['cellcolor'],",") . "," .
+                         $this->__parseCsv(@$param['backcolor'],",") . "," .
+                         $this->__parseCsv(@$param['fillpattern'],",") . "," .
+                         $this->__parseCsv(@$param['fontcolor'],",") . "," .
+                         $this->__parseCsv(@$param['fontsize'],",") . "," .
+                         $this->__parseCsv(@$param['font'],",") . "," .
+                         $this->__parseCsv(@$param['italic'],",") . "," .
+                         $this->__parseCsv(@$param['bold'],",") . "," .
+                         $this->__parseCsv(@$param['strikeout'],",") . "," .
+                         $this->__parseCsv(@$param['underline'],",")
                         ;
         }
         

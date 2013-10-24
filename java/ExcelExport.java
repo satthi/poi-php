@@ -2,9 +2,10 @@ import java.io.*;
 import java.util.*;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.hssf.usermodel.*;
-import org.apache.poi.xssf.usermodel.*;
+//import org.apache.poi.hssf.usermodel.*;
+//import org.apache.poi.xssf.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.util.*;
 import au.com.bytecode.opencsv.*;
 
 public class ExcelExport{
@@ -22,7 +23,7 @@ public class ExcelExport{
     //10:コピー元シート
     //11:コピー元行
     //12:コピー元列
-    //13:列の高さ
+    //13:行の高さ
     //14:列の幅
     //15:シート名
     //16:上罫線
@@ -33,6 +34,16 @@ public class ExcelExport{
     //21:右罫線色
     //22:下罫線
     //23:下罫線色
+    //24:セル色
+    //25:セル色(背景色
+    //26:塗りつぶしパターン
+    //27:フォント色
+    //28:フォントサイズ
+    //29:フォント
+    //30:イタリックフラグ
+    //31:太字フラグ
+    //32:打ち消し線フラグ
+    //33:アンダーラインフラグ
     final static Integer EXCEL_TYPE = 0;
     final static Integer EXCEL_SHEET_NO = 1;
     final static Integer EXCEL_ROW = 2;
@@ -57,6 +68,16 @@ public class ExcelExport{
     final static Integer EXCEL_RIGHTB_COLOR = 21;
     final static Integer EXCEL_BOTTOMB_STYLE = 22;
     final static Integer EXCEL_BOTTOMB_COLOR = 23;
+    final static Integer EXCEL_CELL_COLOR = 24;
+    final static Integer EXCEL_CELL_BACKCOLOR = 25;
+    final static Integer EXCEL_CELL_FILL_PATTERN = 26;
+    final static Integer EXCEL_FONT_COLOR = 27;
+    final static Integer EXCEL_FONT_SIZE = 28;
+    final static Integer EXCEL_FONT = 29;
+    final static Integer EXCEL_FONT_ITALIC = 30;
+    final static Integer EXCEL_FONT_BOLD = 31;
+    final static Integer EXCEL_FONT_STRIKEOUT = 32;
+    final static Integer EXCEL_FONT_UNDERLUINE = 33;
     
     public static void main(String[] args){
         FileInputStream in = null;
@@ -182,39 +203,111 @@ public class ExcelExport{
                         //スタイルのコピー
                         cell.setCellStyle(org_cell.getCellStyle());
                     }else if(stringArray[EXCEL_TYPE].equals("set_style")) {
-                        /*
+                        
                         //罫線の色の指定など調整中
                         CellStyle old_style = cell.getCellStyle();
                         CellStyle style = wb.createCellStyle();
                         style.cloneStyleFrom(old_style);
-                        System.out.println(style);
                         
                         if (!stringArray[EXCEL_TOPB_STYLE].equals("")){
                             style.setBorderTop(border_type(stringArray[EXCEL_TOPB_STYLE]));
                         }
                         if (!stringArray[EXCEL_LEFTB_STYLE].equals("")){
-                            style.setBorderBottom(CellStyle.BORDER_DOUBLE);
+                            style.setBorderBottom(border_type(stringArray[EXCEL_LEFTB_STYLE]));
                         }
                         if (!stringArray[EXCEL_RIGHTB_STYLE].equals("")){
-                            style.setBorderLeft(CellStyle.BORDER_MEDIUM_DASH_DOT);
+                            style.setBorderLeft(border_type(stringArray[EXCEL_RIGHTB_STYLE]));
                         }
                         if (!stringArray[EXCEL_BOTTOMB_STYLE].equals("")){
-                            style.setBorderRight(CellStyle.BORDER_MEDIUM);
+                            style.setBorderRight(border_type(stringArray[EXCEL_BOTTOMB_STYLE]));
                         }
                         if (!stringArray[EXCEL_TOPB_COLOR].equals("")){
-                            style.setTopBorderColor(IndexedColors.SKY_BLUE.getIndex());
+                        	// このブックのカスタムパレットを作成します。
+                            style.setTopBorderColor(color_type(stringArray[EXCEL_TOPB_STYLE]));
                         }
                         if (!stringArray[EXCEL_LEFTB_COLOR].equals("")){
-                            style.setBottomBorderColor(IndexedColors.SKY_BLUE.getIndex());
+                            style.setBottomBorderColor(color_type(stringArray[EXCEL_LEFTB_COLOR]));
+                            //style.setBottomBorderColor(IndexedColors.SKY_BLUE.getIndex());
                         }
                         if (!stringArray[EXCEL_RIGHTB_COLOR].equals("")){
-                            style.setLeftBorderColor(IndexedColors.ORANGE.getIndex());
+                            style.setLeftBorderColor(color_type(stringArray[EXCEL_RIGHTB_COLOR]));
+                            //style.setLeftBorderColor(IndexedColors.ORANGE.getIndex());
                         }
                         if (!stringArray[EXCEL_BOTTOMB_COLOR].equals("")){
-                            style.setRightBorderColor(IndexedColors.BLUE_GREY.getIndex());
+                            style.setRightBorderColor(color_type(stringArray[EXCEL_BOTTOMB_COLOR]));
+                            //style.setRightBorderColor(IndexedColors.BLUE_GREY.getIndex());
                         }
                         cell.setCellStyle(style);
-                        */
+                    }else if(stringArray[EXCEL_TYPE].equals("cell_color")) {
+                        System.out.println("cell_color");
+                        CellStyle old_style = cell.getCellStyle();
+                        CellStyle style = wb.createCellStyle();
+                        style.cloneStyleFrom(old_style);
+                        style.setFillForegroundColor(color_type(stringArray[EXCEL_CELL_COLOR]));
+                        if(!stringArray[EXCEL_CELL_BACKCOLOR].equals("")) {
+                            style.setFillBackgroundColor(color_type(stringArray[EXCEL_CELL_COLOR]));
+                        }
+                        style.setFillPattern(cell_fillpattern(stringArray[EXCEL_CELL_FILL_PATTERN]));
+                        cell.setCellStyle(style);
+                    }else if(stringArray[EXCEL_TYPE].equals("font_setting")) {
+                        System.out.println("font_color");
+                        CellStyle old_style = cell.getCellStyle();
+                        CellStyle style = wb.createCellStyle();
+                        style.cloneStyleFrom(old_style);
+                        
+                        Font old_font = wb.getFontAt(old_style.getFontIndex());
+                        Font font = wb.createFont();
+                        
+                        if (!stringArray[EXCEL_FONT_COLOR].equals("")){
+                            font.setColor(color_type(stringArray[EXCEL_FONT_COLOR]));
+                        } else {
+                            font.setColor(old_font.getColor());
+                        }
+                        if (!stringArray[EXCEL_FONT_SIZE].equals("")){
+                            font.setFontHeightInPoints(Short.parseShort(stringArray[EXCEL_FONT_SIZE]));
+                        } else {
+                            font.setFontHeightInPoints(old_font.getFontHeightInPoints());
+                        }
+                        if (!stringArray[EXCEL_FONT].equals("")){
+                            font.setFontName(stringArray[EXCEL_FONT]);
+                        } else {
+                            font.setFontName(old_font.getFontName());
+                        }
+                        if (!stringArray[EXCEL_FONT_ITALIC].equals("")){
+                            if (stringArray[EXCEL_FONT_ITALIC].equals("1")){
+                                font.setItalic(true);
+                            } else if(stringArray[EXCEL_FONT_ITALIC].equals("0")){
+                                font.setItalic(false);
+                            }
+                        } else {
+                            font.setItalic(old_font.getItalic());
+                        }
+                        if (!stringArray[EXCEL_FONT_BOLD].equals("")){
+                            if (stringArray[EXCEL_FONT_BOLD].equals("1")){
+                                font.setBoldweight(Font.BOLDWEIGHT_BOLD);
+                            } else if(stringArray[EXCEL_FONT_BOLD].equals("0")){
+                                font.setBoldweight(Font.BOLDWEIGHT_NORMAL);
+                            }
+                        } else {
+                            font.setBoldweight(old_font.getBoldweight());
+                        }
+                        if (!stringArray[EXCEL_FONT_STRIKEOUT].equals("")){
+                            if (stringArray[EXCEL_FONT_STRIKEOUT].equals("1")){
+                                font.setStrikeout(true);
+                            } else if(stringArray[EXCEL_FONT_STRIKEOUT].equals("0")){
+                                font.setStrikeout(false);
+                            }
+                        } else {
+                            font.setStrikeout(old_font.getStrikeout());
+                        }
+                        if (!stringArray[EXCEL_FONT_UNDERLUINE].equals("")){
+                             font.setUnderline(underline_type(stringArray[EXCEL_FONT_UNDERLUINE]));
+                        } else {
+                            font.setUnderline(old_font.getUnderline());
+                        }
+                        style.setFont(font);
+                        cell.setCellStyle(style);
+
                     }else if (stringArray[EXCEL_VALUE] == null || stringArray[EXCEL_VALUE].length() == 0){
                         cell.removeCellComment();
                     } else{
@@ -289,6 +382,167 @@ public class ExcelExport{
             return CellStyle.BORDER_SLANTED_DASH_DOT;
         } else {
             return CellStyle.BORDER_NONE;
+        }
+    }
+
+    public static short color_type(String type){
+        if (type.equals("AQUA")){
+            return IndexedColors.AQUA.getIndex();
+        } else if (type.equals("AUTOMATIC")){
+            return IndexedColors.AUTOMATIC.getIndex();
+        } else if (type.equals("BLACK")){
+        	System.out.println("BLACK");
+            return IndexedColors.BLACK.getIndex();
+        } else if (type.equals("BLUE")){
+            return IndexedColors.BLUE.getIndex();
+        } else if (type.equals("BLUE_GREY")){
+            return IndexedColors.BLUE_GREY.getIndex();
+        } else if (type.equals("BRIGHT_GREEN")){
+            return IndexedColors.BRIGHT_GREEN.getIndex();
+        } else if (type.equals("BROWN")){
+            return IndexedColors.BROWN.getIndex();
+        } else if (type.equals("CORAL")){
+            return IndexedColors.CORAL.getIndex();
+        } else if (type.equals("CORNFLOWER_BLUE")){
+            return IndexedColors.CORNFLOWER_BLUE.getIndex();
+        } else if (type.equals("DARK_BLUE")){
+            return IndexedColors.DARK_BLUE.getIndex();
+        } else if (type.equals("DARK_GREEN")){
+            return IndexedColors.DARK_GREEN.getIndex();
+        } else if (type.equals("DARK_RED")){
+            return IndexedColors.DARK_RED.getIndex();
+        } else if (type.equals("DARK_TEAL")){
+            return IndexedColors.DARK_TEAL.getIndex();
+        } else if (type.equals("DARK_YELLOW")){
+            return IndexedColors.DARK_YELLOW.getIndex();
+        } else if (type.equals("GOLD")){
+            return IndexedColors.GOLD.getIndex();
+        } else if (type.equals("GREEN")){
+            return IndexedColors.GREEN.getIndex();
+        } else if (type.equals("GREY_25_PERCENT")){
+            return IndexedColors.GREY_25_PERCENT.getIndex();
+        } else if (type.equals("GREY_40_PERCENT")){
+            return IndexedColors.GREY_40_PERCENT.getIndex();
+        } else if (type.equals("GREY_50_PERCENT")){
+            return IndexedColors.GREY_50_PERCENT.getIndex();
+        } else if (type.equals("GREY_80_PERCENT")){
+            return IndexedColors.GREY_80_PERCENT.getIndex();
+        } else if (type.equals("LAVENDER")){
+            return IndexedColors.LAVENDER.getIndex();
+        } else if (type.equals("LEMON_CHIFFON")){
+            return IndexedColors.LEMON_CHIFFON.getIndex();
+        } else if (type.equals("LIGHT_CORNFLOWER_BLUE")){
+            return IndexedColors.LIGHT_CORNFLOWER_BLUE.getIndex();
+        } else if (type.equals("LIGHT_GREEN")){
+            return IndexedColors.LIGHT_GREEN.getIndex();
+        } else if (type.equals("LIGHT_ORANGE")){
+            return IndexedColors.LIGHT_ORANGE.getIndex();
+        } else if (type.equals("LIGHT_TURQUOISE")){
+            return IndexedColors.LIGHT_TURQUOISE.getIndex();
+        } else if (type.equals("LIGHT_YELLOW")){
+            return IndexedColors.LIGHT_YELLOW.getIndex();
+        } else if (type.equals("LIME")){
+            return IndexedColors.LIME.getIndex();
+        } else if (type.equals("MAROON")){
+            return IndexedColors.MAROON.getIndex();
+        } else if (type.equals("OLIVE_GREEN")){
+            return IndexedColors.OLIVE_GREEN.getIndex();
+        } else if (type.equals("ORANGE")){
+            return IndexedColors.ORANGE.getIndex();
+        } else if (type.equals("ORCHID")){
+            return IndexedColors.ORCHID.getIndex();
+        } else if (type.equals("PALE_BLUE")){
+            return IndexedColors.PALE_BLUE.getIndex();
+        } else if (type.equals("PINK")){
+            return IndexedColors.PINK.getIndex();
+        } else if (type.equals("PLUM")){
+            return IndexedColors.PLUM.getIndex();
+        } else if (type.equals("RED")){
+            return IndexedColors.RED.getIndex();
+        } else if (type.equals("ROSE")){
+            return IndexedColors.ROSE.getIndex();
+        } else if (type.equals("ROYAL_BLUE")){
+            return IndexedColors.ROYAL_BLUE.getIndex();
+        } else if (type.equals("SEA_GREEN")){
+            return IndexedColors.SEA_GREEN.getIndex();
+        } else if (type.equals("SKY_BLUE")){
+            return IndexedColors.SKY_BLUE.getIndex();
+        } else if (type.equals("TAN")){
+            return IndexedColors.TAN.getIndex();
+        } else if (type.equals("TEAL")){
+            return IndexedColors.TEAL.getIndex();
+        } else if (type.equals("TURQUOISE")){
+            return IndexedColors.TURQUOISE.getIndex();
+        } else if (type.equals("VIOLET")){
+            return IndexedColors.VIOLET.getIndex();
+        } else if (type.equals("WHITE")){
+            return IndexedColors.WHITE.getIndex();
+        } else if (type.equals("YELLOW")){
+            return IndexedColors.YELLOW.getIndex();
+        } else if (type.equals("AUTOMATIC")){
+            return IndexedColors.AUTOMATIC.getIndex();
+        } else {
+            return IndexedColors.AUTOMATIC.getIndex();
+        }
+    }
+    
+    public static byte underline_type(String type){
+        if (type.equals("NONE")){
+            return Font.U_NONE;
+        } else if (type.equals("SINGLE")){
+            return Font.U_SINGLE;
+        } else if (type.equals("DOUBLE")){
+            return Font.U_DOUBLE;
+        } else if (type.equals("SINGLE_ACCOUNTING")){
+            return Font.U_SINGLE_ACCOUNTING;
+        } else if (type.equals("DOUBLE_ACCOUNTING")){
+            return Font.U_DOUBLE_ACCOUNTING;
+        } else if (type.equals("1")){
+            return Font.U_SINGLE;
+        } else if (type.equals("0")){
+            return Font.U_NONE;
+        } else {
+            return Font.U_NONE;
+        }
+    }
+    
+    public static byte cell_fillpattern(String type){
+        if (type.equals("NO_FILL")){
+            return CellStyle.NO_FILL;
+        } else if (type.equals("SOLID_FOREGROUND")){
+            return CellStyle.SOLID_FOREGROUND;
+        } else if (type.equals("FINE_DOTS")){
+            return CellStyle.FINE_DOTS;
+        } else if (type.equals("ALT_BARS")){
+            return CellStyle.ALT_BARS;
+        } else if (type.equals("SPARSE_DOTS")){
+            return CellStyle.SPARSE_DOTS;
+        } else if (type.equals("THICK_HORZ_BANDS")){
+            return CellStyle.THICK_HORZ_BANDS;
+        } else if (type.equals("THICK_VERT_BANDS")){
+            return CellStyle.THICK_VERT_BANDS;
+        } else if (type.equals("THICK_BACKWARD_DIAG")){
+            return CellStyle.THICK_BACKWARD_DIAG;
+        } else if (type.equals("THICK_FORWARD_DIAG")){
+            return CellStyle.THICK_FORWARD_DIAG;
+        } else if (type.equals("BIG_SPOTS")){
+            return CellStyle.BIG_SPOTS;
+        } else if (type.equals("BRICKS")){
+            return CellStyle.BRICKS;
+        } else if (type.equals("THIN_HORZ_BANDS")){
+            return CellStyle.THIN_HORZ_BANDS;
+        } else if (type.equals("THIN_VERT_BANDS")){
+            return CellStyle.THIN_VERT_BANDS;
+        } else if (type.equals("THIN_BACKWARD_DIAG")){
+            return CellStyle.THIN_BACKWARD_DIAG;
+        } else if (type.equals("THIN_FORWARD_DIAG")){
+            return CellStyle.THIN_FORWARD_DIAG;
+        } else if (type.equals("SQUARES")){
+            return CellStyle.SQUARES;
+        } else if (type.equals("DIAMONDS")){
+            return CellStyle.DIAMONDS;
+        } else {
+            return CellStyle.SOLID_FOREGROUND;
         }
     }
 }
