@@ -116,8 +116,6 @@ public class ExcelExport{
                     }
                 //シート名の変更
                 }else if (stringArray[EXCEL_TYPE].equals("sheet_rename")){
-                	System.out.println((Integer.parseInt(stringArray[EXCEL_SHEET_NO])));
-                	System.out.println((stringArray[EXCEL_SHEET_NAME]));
                     wb.setSheetName(Integer.parseInt(stringArray[EXCEL_SHEET_NO]), stringArray[EXCEL_SHEET_NAME]);
                 //シート削除
                 }else if (stringArray[EXCEL_TYPE].equals("sheet_delete")){
@@ -239,7 +237,6 @@ public class ExcelExport{
                         }
                         cell.setCellStyle(style);
                     }else if(stringArray[EXCEL_TYPE].equals("cell_color")) {
-                        System.out.println("cell_color");
                         CellStyle old_style = cell.getCellStyle();
                         CellStyle style = wb.createCellStyle();
                         style.cloneStyleFrom(old_style);
@@ -250,7 +247,6 @@ public class ExcelExport{
                         style.setFillPattern(cell_fillpattern(stringArray[EXCEL_CELL_FILL_PATTERN]));
                         cell.setCellStyle(style);
                     }else if(stringArray[EXCEL_TYPE].equals("font_setting")) {
-                        System.out.println("font_color");
                         CellStyle old_style = cell.getCellStyle();
                         CellStyle style = wb.createCellStyle();
                         style.cloneStyleFrom(old_style);
@@ -391,7 +387,6 @@ public class ExcelExport{
         } else if (type.equals("AUTOMATIC")){
             return IndexedColors.AUTOMATIC.getIndex();
         } else if (type.equals("BLACK")){
-        	System.out.println("BLACK");
             return IndexedColors.BLACK.getIndex();
         } else if (type.equals("BLUE")){
             return IndexedColors.BLUE.getIndex();

@@ -29,7 +29,7 @@ class PoiPHP {
     /**
      * export
      */
-    public function export($readfile, $outFile) {
+    public function excelExport($readfile, $outFile) {
         //$tsv_file = '/tmp/tmp_csv_' . substr((md5(time())), 0, 10) . '.csv';
         $tsv_file = TMP  . 'tmp_csv_' . substr((md5(time())), 0, 10) . '.csv';
         $this->__makeTsv($tsv_file);
@@ -40,7 +40,6 @@ class PoiPHP {
         exec($command,$javalog);
         //@unlink($tsv_file);
         
-        print_a($javalog);
         if (file_exists($outFile)){
             return $outFile;
         } else {
@@ -51,7 +50,7 @@ class PoiPHP {
     /**
      * import
      */
-    public function import($readfile, $outFile, $sheet, $rowst, $colst, $colnum,$file_encode = 'UTF-8') {
+    public function excelImport($readfile, $outFile, $sheet, $rowst, $colst, $colnum,$file_encode = 'UTF-8') {
         $cd_command = $this->_settings['plugin_java_path'];
         $command = 'export LANG=ja_JP.UTF-8;cd ' . $cd_command . ';java -Dfile.encoding=UTF-8 -cp \'.:' . $this->_settings['poi_path'] . '/*:' . $this->_settings['poi_path'] . '/lib/*:' . $this->_settings['poi_path'] . '/ooxml-lib/*:' . $this->_settings['opencsv_path'] . '\' ExcelImport ' . $readfile . ' ' . $outFile . ' ' . $sheet . ' ' . $rowst . ' ' . $colst . ' ' . $colnum . ' ' . $file_encode . ' 2>&1';
 
