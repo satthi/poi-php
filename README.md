@@ -208,8 +208,29 @@ public function setCellColor($sheet,$row,$col,$cellcolor,$backcolor = null,$fill
  * $bold 太字の設定
  * $strikeout 打ち消し線の設定
  * $underline 下線の設定
- */public function setFontSetting($sheet,$row,$col,$fontcolor = null,$fontsize = null,$font = null,$italic = null,$bold = null,$strikeout = null,$underline = null)
+ */
+public function setFontSetting($sheet,$row,$col,$fontcolor = null,$fontsize = null,$font = null,$italic = null,$bold = null,$strikeout = null,$underline = null)
 
+
+/*
+ * addImage
+ * 画像の追加
+ * 基本は画像パスまで。
+ * それ以降のパスはすべて指定をしないと動作しない上、強引に画像が引き伸ばされるため奇麗に画像が表示されないので
+ * resizeは別途行った上で設置を推奨
+ * 
+ * $sheet シート番号
+ * $row 行番号
+ * $col 列番号
+ * $image 画像パス
+ * $margin_x 左マージン
+ * $margin_y 上マージン
+ * $endrow 終端行
+ * $endcol 終端列
+ * $margin_rx 右マージン
+ * $margin_ry 下マージン
+ */
+public function addImage($sheet,$row,$col,$image,$margin_x = 0,$margin_y = 0,$endrow = null,$endcol = null, $margin_rx = 0,$margin_ry = 0){
 
 /*
  * reset

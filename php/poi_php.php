@@ -258,6 +258,22 @@ class PoiPHP {
         );
     }
     
+    public function addImage($sheet,$row,$col,$image,$margin_x = 0,$margin_y = 0,$endrow = null,$endcol = null, $margin_rx = 0,$margin_ry = 0){
+        $this->export_param[] = array(
+            'sheet' => $sheet,
+            'row' => $row,
+            'col' => $col,
+            'image' => $image,
+            'margin_x' => $margin_x,
+            'margin_y' => $margin_y,
+            'endrow' => $endrow,
+            'endcol' => $endcol,
+            'margin_rx' => $margin_rx,
+            'margin_ry' => $margin_ry,
+            'type' => 'add_image',
+        );
+    }
+    
     public function reset(){
         $this->export_param = array();
     }
@@ -338,7 +354,14 @@ class PoiPHP {
                          $this->__parseCsv(@$param['italic'],",") . "," .
                          $this->__parseCsv(@$param['bold'],",") . "," .
                          $this->__parseCsv(@$param['strikeout'],",") . "," .
-                         $this->__parseCsv(@$param['underline'],",")
+                         $this->__parseCsv(@$param['underline'],",") . "," .
+                         $this->__parseCsv(@$param['image'],",") . "," .
+                         $this->__parseCsv(@$param['margin_x'],",") . "," .
+                         $this->__parseCsv(@$param['margin_y'],",") . "," .
+                         $this->__parseCsv(@$param['endrow'],",") . "," .
+                         $this->__parseCsv(@$param['endcol'],",") . "," .
+                         $this->__parseCsv(@$param['margin_rx'],",") . "," .
+                         $this->__parseCsv(@$param['margin_ry'],",")
                         ;
         }
         

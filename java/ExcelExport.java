@@ -1,5 +1,7 @@
 import java.io.*;
+import java.awt.image.*;
 import java.util.*;
+import javax.imageio.ImageIO;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 //import org.apache.poi.hssf.usermodel.*;
@@ -78,6 +80,13 @@ public class ExcelExport{
     final static Integer EXCEL_FONT_BOLD = 31;
     final static Integer EXCEL_FONT_STRIKEOUT = 32;
     final static Integer EXCEL_FONT_UNDERLUINE = 33;
+    final static Integer EXCEL_IMAGE = 34;
+    final static Integer EXCEL_IMAGE_MARGIN_X = 35;
+    final static Integer EXCEL_IMAGE_MARGIN_Y = 36;
+    final static Integer EXCEL_IMAGE_ENDROW = 37;
+    final static Integer EXCEL_IMAGE_ENDCOL = 38;
+    final static Integer EXCEL_IMAGE_MARGIN_RX = 39;
+    final static Integer EXCEL_IMAGE_MARGIN_RY = 40;
     
     public static void main(String[] args){
         FileInputStream in = null;
@@ -303,7 +312,35 @@ public class ExcelExport{
                         }
                         style.setFont(font);
                         cell.setCellStyle(style);
+                    }else if(stringArray[EXCEL_TYPE].equals("add_image")) {
+                        File file = new File(stringArray[EXCEL_IMAGE]);
+                        ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
+                        
+                        BufferedImage img = ImageIO.read(file);
+                        ImageIO.write(img, "png", byteArrayOut);
+                        
+                        Drawing drawing = sheet.createDrawingPatriarch();
+                        CreationHelper helper = wb.getCreationHelper();
+                        ClientAnchor anchor = helper.createClientAnchor();
 
+                        //画像をセットするセルの指定
+                        anchor.setRow1(Integer.parseInt(stringArray[EXCEL_ROW]));
+                        anchor.setCol1(Integer.parseInt(stringArray[EXCEL_COL]));
+                        //終端のセルを指定している場合。(この場合のみmarginがきく
+                        if(!stringArray[EXCEL_IMAGE_ENDROW].equals("") && !stringArray[EXCEL_IMAGE_ENDCOL].equals("")){
+                            anchor.setDx1(Integer.parseInt(stringArray[EXCEL_IMAGE_MARGIN_X]));
+                            anchor.setDy1(Integer.parseInt(stringArray[EXCEL_IMAGE_MARGIN_Y]));
+                            anchor.setRow2(Integer.parseInt(stringArray[EXCEL_IMAGE_ENDROW]));
+                            anchor.setDx2(Integer.parseInt(stringArray[EXCEL_IMAGE_MARGIN_RX]));
+                            anchor.setCol2(Integer.parseInt(stringArray[EXCEL_IMAGE_ENDCOL]));
+                            anchor.setDy2(Integer.parseInt(stringArray[EXCEL_IMAGE_MARGIN_RY]));
+                        }
+                        int picIndex = wb.addPicture(byteArrayOut.toByteArray(), Workbook.PICTURE_TYPE_PNG);
+                        Picture pic = drawing.createPicture(anchor, picIndex);
+                        //終端のセルを指定していない場合はresizeをしないと画像が出てこないため
+                        if (stringArray[EXCEL_IMAGE_ENDROW].equals("") || stringArray[EXCEL_IMAGE_ENDCOL].equals("")) {
+                            pic.resize();
+                        }
                     }else if (stringArray[EXCEL_VALUE] == null || stringArray[EXCEL_VALUE].length() == 0){
                         cell.removeCellComment();
                     } else{
@@ -343,9 +380,6 @@ public class ExcelExport{
         }
         
     }
-    
-    
-    
     
     public static short border_type(String type){
         if (type.equals("none")){
