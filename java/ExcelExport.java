@@ -87,6 +87,7 @@ public class ExcelExport{
     final static Integer EXCEL_IMAGE_ENDCOL = 38;
     final static Integer EXCEL_IMAGE_MARGIN_RX = 39;
     final static Integer EXCEL_IMAGE_MARGIN_RY = 40;
+    final static Integer EXCEL_CELL_ALIGN = 41;
     
     public static void main(String[] args){
         FileInputStream in = null;
@@ -271,6 +272,12 @@ public class ExcelExport{
                             style.setFillBackgroundColor(color_type(stringArray[EXCEL_CELL_BACKCOLOR]));
                         }
                         style.setFillPattern(cell_fillpattern(stringArray[EXCEL_CELL_FILL_PATTERN]));
+                        cell.setCellStyle(style);
+                   }else if(stringArray[EXCEL_TYPE].equals("align")) {
+                        CellStyle old_style = cell.getCellStyle();
+                        CellStyle style = wb.createCellStyle();
+                        style.cloneStyleFrom(old_style);
+                        style.setAlignment(align_type(stringArray[EXCEL_CELL_ALIGN]));
                         cell.setCellStyle(style);
                     }else if(stringArray[EXCEL_TYPE].equals("font_setting")) {
                         CellStyle old_style = cell.getCellStyle();
@@ -601,4 +608,24 @@ public class ExcelExport{
         }
         return fileName;
     }
+    
+    public static byte align_type(String type){
+        if (type.equals("LEFT")){
+            return CellStyle.ALIGN_LEFT;
+        } else if (type.equals("RIGHT")){
+            return CellStyle.ALIGN_RIGHT;
+        } else if (type.equals("CENTER")){
+            return CellStyle.ALIGN_CENTER;
+        } else if (type.equals("GENERAL")){
+            return CellStyle.ALIGN_GENERAL;
+        } else if (type.equals("FILL")){
+            return CellStyle.ALIGN_FILL;
+        } else if (type.equals("JUSTIFY")){
+            return CellStyle.ALIGN_JUSTIFY;
+        } else if (type.equals("CENTER_SELECTION")){
+            return CellStyle.ALIGN_CENTER_SELECTION;
+        } else {
+            return CellStyle.SOLID_FOREGROUND;
+        }
+    }    
 }

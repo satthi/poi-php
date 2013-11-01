@@ -277,6 +277,16 @@ class PoiPHP {
         );
     }
     
+    public function setAlign($sheet,$row,$col,$align){
+        $this->export_param[] = array(
+            'sheet' => $sheet,
+            'row' => $row,
+            'col' => $col,
+            'align' => $align,
+            'type' => 'align',
+        );
+    }
+    
     public function reset(){
         $this->export_param = array();
     }
@@ -364,7 +374,8 @@ class PoiPHP {
                          $this->__parseCsv(@$param['endrow'],",") . "," .
                          $this->__parseCsv(@$param['endcol'],",") . "," .
                          $this->__parseCsv(@$param['margin_rx'],",") . "," .
-                         $this->__parseCsv(@$param['margin_ry'],",")
+                         $this->__parseCsv(@$param['margin_ry'],",") . "," .
+                         $this->__parseCsv(@$param['align'],",")
                         ;
         }
         
