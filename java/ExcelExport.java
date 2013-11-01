@@ -4,8 +4,8 @@ import java.util.*;
 import javax.imageio.ImageIO;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-//import org.apache.poi.hssf.usermodel.*;
-//import org.apache.poi.xssf.usermodel.*;
+import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.xssf.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.util.*;
 import au.com.bytecode.opencsv.*;
@@ -98,15 +98,32 @@ public class ExcelExport{
 
         //シートの読み込み
         try{
-            in = new FileInputStream(args[0]);
-            wb = WorkbookFactory.create(in);
+            if (!args[0].equals("new_file")){
+                in = new FileInputStream(args[0]);
+                wb = WorkbookFactory.create(in);
+            } else {
+                in = null;
+                //拡張子の取得
+                String ext = getSuffix(args[1]);
+                if (ext.equals("xls")){
+                    wb = new HSSFWorkbook();
+                } else if(ext.equals("xlsx")){
+                    wb = new XSSFWorkbook();
+                } else {
+                    wb = new HSSFWorkbook();
+                }
+                //このときシートがないので新規シートを一つ作っておく
+                wb.createSheet();
+            }
         }catch(IOException e){
             System.out.println(e.toString());
         }catch(InvalidFormatException e){
             System.out.println(e.toString());
         }finally{
             try{
-                in.close();
+                if (in != null){
+                    in.close();
+                }
             }catch (IOException e){
                 System.out.println(e.toString());
             }
@@ -573,5 +590,15 @@ public class ExcelExport{
         } else {
             return CellStyle.SOLID_FOREGROUND;
         }
+    }
+    
+    public static String getSuffix(String fileName) {
+        if (fileName == null)
+            return null;
+        int point = fileName.lastIndexOf(".");
+        if (point != -1) {
+            return fileName.substring(point + 1);
+        }
+        return fileName;
     }
 }

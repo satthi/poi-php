@@ -34,6 +34,9 @@ class PoiPHP {
         $tsv_file = $this->_settings['tmp_csv_dir_path'] . '/tmp_csv_' . substr((md5(time())), 0, 10) . '.csv';
         $this->__makeTsv($tsv_file);
         //作ったTSVを元にExcelを作成する
+        if ($readfile === null){
+            $readfile = 'new_file';
+        }
         $cd_command = $this->_settings['plugin_java_path'];
         $command = 'export LANG=ja_JP.UTF-8;cd ' . $cd_command . ';java -Dfile.encoding=UTF-8 -cp \'.:' . $this->_settings['poi_path'] . '/*:' . $this->_settings['poi_path'] . '/lib/*:' . $this->_settings['poi_path'] . '/ooxml-lib/*:' . $this->_settings['opencsv_path'] . '\' ExcelExport ' . $readfile . ' ' . $outFile . ' ' . $tsv_file . ' 2>&1';
 
