@@ -237,28 +237,28 @@ public class ExcelExport{
                             style.setBorderTop(border_type(stringArray[EXCEL_TOPB_STYLE]));
                         }
                         if (!stringArray[EXCEL_LEFTB_STYLE].equals("")){
-                            style.setBorderBottom(border_type(stringArray[EXCEL_LEFTB_STYLE]));
+                            style.setBorderLeft(border_type(stringArray[EXCEL_LEFTB_STYLE]));
                         }
                         if (!stringArray[EXCEL_RIGHTB_STYLE].equals("")){
-                            style.setBorderLeft(border_type(stringArray[EXCEL_RIGHTB_STYLE]));
+                            style.setBorderRight(border_type(stringArray[EXCEL_RIGHTB_STYLE]));
                         }
                         if (!stringArray[EXCEL_BOTTOMB_STYLE].equals("")){
-                            style.setBorderRight(border_type(stringArray[EXCEL_BOTTOMB_STYLE]));
+                            style.setBorderBottom(border_type(stringArray[EXCEL_BOTTOMB_STYLE]));
                         }
                         if (!stringArray[EXCEL_TOPB_COLOR].equals("")){
                         	// このブックのカスタムパレットを作成します。
                             style.setTopBorderColor(color_type(stringArray[EXCEL_TOPB_STYLE]));
                         }
                         if (!stringArray[EXCEL_LEFTB_COLOR].equals("")){
-                            style.setBottomBorderColor(color_type(stringArray[EXCEL_LEFTB_COLOR]));
+                            style.setLeftBorderColor(color_type(stringArray[EXCEL_LEFTB_COLOR]));
                             //style.setBottomBorderColor(IndexedColors.SKY_BLUE.getIndex());
                         }
                         if (!stringArray[EXCEL_RIGHTB_COLOR].equals("")){
-                            style.setLeftBorderColor(color_type(stringArray[EXCEL_RIGHTB_COLOR]));
+                            style.setRightBorderColor(color_type(stringArray[EXCEL_RIGHTB_COLOR]));
                             //style.setLeftBorderColor(IndexedColors.ORANGE.getIndex());
                         }
                         if (!stringArray[EXCEL_BOTTOMB_COLOR].equals("")){
-                            style.setRightBorderColor(color_type(stringArray[EXCEL_BOTTOMB_COLOR]));
+                            style.setBottomBorderColor(color_type(stringArray[EXCEL_BOTTOMB_COLOR]));
                             //style.setRightBorderColor(IndexedColors.BLUE_GREY.getIndex());
                         }
                         cell.setCellStyle(style);
