@@ -31,18 +31,47 @@ class PoiPHP {
      * export
      */
     public function excelExport($readfile, $outFile) {
-        $tsv_file = $this->_settings['tmp_csv_dir_path'] . '/tmp_csv_' . substr((md5(time())), 0, 10) . '.csv';
-        $this->__makeTsv($tsv_file);
-        //作ったTSVを元にExcelを作成する
-        if ($readfile === null){
-            $readfile = 'new_file';
+        $export_param_all = $this->export_param;
+        $param_count = count($export_param_all);
+        $csv_file = array();
+        $set_param = array();
+        foreach ($export_param_all as $export_param_val){
+            //メモリオーバー対策用に適当なところでデータを切る。
+            if (count($set_param) > 5000){
+                $this_csv_file = $this->_settings['tmp_csv_dir_path'] . '/tmp_csv_' . substr((md5(time())), 0, 10) . '.csv';
+                $csv_file[] = $this_csv_file;
+                $this->__makeCsv($this_csv_file,$set_param);
+                $set_param = array();
+            }
+            $set_param[] = $export_param_val;
         }
-        $cd_command = $this->_settings['plugin_java_path'];
-        $command = 'export LANG=ja_JP.UTF-8;cd ' . $cd_command . ';java -Dfile.encoding=UTF-8 -cp \'.:' . $this->_settings['poi_path'] . '/*:' . $this->_settings['poi_path'] . '/lib/*:' . $this->_settings['poi_path'] . '/ooxml-lib/*:' . $this->_settings['opencsv_path'] . '\' ExcelExport ' . $readfile . ' ' . $outFile . ' ' . $tsv_file . ' 2>&1';
-
-        exec($command,$javalog);
-        @unlink($tsv_file);
+        //残データ
+        $this_csv_file = $this->_settings['tmp_csv_dir_path'] . '/tmp_csv_' . substr((md5(time())), 0, 10) . '.csv';
+        $csv_file[] = $this_csv_file;
+        $this->__makeCsv($this_csv_file,$set_param);
+        $template_file = $readfile;
+        foreach ($csv_file as $csv_file_val){
+            //作ったTSVを元にExcelを作成する
+            if ($template_file === null){
+                $template_file = 'new_file';
+            }
+            $tmp_export_excel = $this->_settings['tmp_csv_dir_path'] . '/tmp_excel_' . substr((md5(time())), 0, 10) . '.xls';
+            $cd_command = $this->_settings['plugin_java_path'];
+            $command = 'export LANG=ja_JP.UTF-8;cd ' . $cd_command . ';java -Dfile.encoding=UTF-8 -cp \'.:' . $this->_settings['poi_path'] . '/*:' . $this->_settings['poi_path'] . '/lib/*:' . $this->_settings['poi_path'] . '/ooxml-lib/*:' . $this->_settings['opencsv_path'] . '\' ExcelExport ' . $template_file . ' ' . $tmp_export_excel . ' ' . $csv_file_val . ' 2>&1';
+            exec($command,$javalog);
+            //不要になったcsvファイルの削除
+            @unlink($csv_file_val);
+            if (!file_exists($tmp_export_excel)){
+                return $javalog;
+            }
+            //不要になった一時テンプレートの削除
+            if ($template_file != $readfile){
+                @unlink($template_file);
+            }
+            $template_file = $tmp_export_excel;
+        }
         
+        @rename($tmp_export_excel,$outFile);
         if (file_exists($outFile)){
             return $outFile;
         } else {
@@ -96,6 +125,16 @@ class PoiPHP {
             'col' => $col,
             'val' => $integer,
             'type' => 'integer',
+        );
+    }
+    
+    public function addDouble($sheet,$row,$col,$double){
+        $this->export_param[] = array(
+            'sheet' => $sheet,
+            'row' => $row,
+            'col' => $col,
+            'val' => $double,
+            'type' => 'double',
         );
     }
     
@@ -292,12 +331,12 @@ class PoiPHP {
     }
 
     
-    private function __makeTsv($tsv_file){
+    private function __makeCsv($csv_file,$export_param){
         //TSVファイル作成
-        $tsv_text = '';
-        foreach ($this->export_param as $param){
-            if ($tsv_text !== ''){
-                $tsv_text .= "\r\n";
+        $csv_text = '';
+        foreach ($export_param as $param){
+            if ($csv_text !== ''){
+                $csv_text .= "\r\n";
             }
             //TSVの書式(使わないものもある
             //0:種別※必須
@@ -334,7 +373,7 @@ class PoiPHP {
             //31:太字フラグ
             //32:打ち消し線フラグ
             //33:アンダーラインフラグ
-            $tsv_text .= $this->__parseCsv($param['type'],",")  . "," .
+            $csv_text .= $this->__parseCsv($param['type'],",")  . "," .
                          $this->__parseCsv($param['sheet'],",") . "," .
                          $this->__parseCsv(@$param['row'],",") . "," .
                          $this->__parseCsv(@$param['col'],",") . "," .
@@ -379,9 +418,9 @@ class PoiPHP {
                         ;
         }
         
-        touch($tsv_file);
-        $fp = fopen($tsv_file , 'w');
-        fwrite($fp,$tsv_text,strlen($tsv_text));
+        touch($csv_file);
+        $fp = fopen($csv_file , 'w');
+        fwrite($fp,$csv_text,strlen($csv_text));
         fclose($fp);
     }
     
@@ -389,7 +428,8 @@ class PoiPHP {
      * __parseCsv
      */
     private function __parseCsv($v, $delimiter) {
-        if (preg_match('/[' . $delimiter . '"]/', $v)) {
+        //if (preg_match('/[' . $delimiter . '"]/', $v)) {
+        if (strpos($v, $delimiter) !== false || strpos($v, '"') !== false || strpos($v, "\n") !== false) {
             $v = str_replace('"', '""', $v);
         }
         $v = '"' . $v . '"';

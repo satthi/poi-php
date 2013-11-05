@@ -372,6 +372,8 @@ public class ExcelExport{
                             cell.setCellValue(stringArray[EXCEL_VALUE]);
                         } else if(stringArray[EXCEL_TYPE].equals("integer")) {
                             cell.setCellValue(Long.parseLong(stringArray[EXCEL_VALUE]));
+                        } else if(stringArray[EXCEL_TYPE].equals("double")) {
+                            cell.setCellValue(Double.parseDouble(stringArray[EXCEL_VALUE]));
                         } else if(stringArray[EXCEL_TYPE].equals("formula")) {
                             cell.setCellFormula(stringArray[EXCEL_VALUE]);
                         }
